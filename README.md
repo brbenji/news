@@ -10,8 +10,10 @@
   ```
 
   each command takes a `gid` and `name.hut`.
+  
 
 **new structure for hut**
+
 by modifying %hut to use the sss library other structures for the state
 make more sense than the current one. a major change is splitting the
 state into two separate sss paths. one path `[%huts host.squad name.squad ~]`
