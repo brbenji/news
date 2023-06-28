@@ -2,10 +2,12 @@
 
 ## nord bird
 **gen commands**
+  ``` hoon
   :hut|new [~per %hutopia] %huthut
   :hut|quit [~per %hutopia] %huthut
   :hut|join [~per %hutopia] %otherhut
   :hut|post [~per %hutopia] %huthut 'my important message'
+  ```
 
   each command takes a `gid` and `name.hut`.
 
@@ -46,26 +48,6 @@ keep track of interested ships to properly send updates. now each ship
 takes care of their own subscriptions by `%join`ing and `%quit`ing with
 sss. and instead of the host keeping all of the chat data, that data is
 stored only by the interested ships. it's just nice :)
-
-**sequence of a wave entering the network**
-
-  OUR OWN INTEREST for GETTING PUB INFO  -  behn timer activated sequences
-    %hut: on-arvo on wire //sss/behn/~pet/hut/29/huts, [%behn %wake]  (behn:su-huts wire sign)
-        (hidden: if we are interested, we scry our neighbor) `?:  (lte aeon aeon:(fall (~(got by sub) ship dude path) *flow))`
-    %hut: on-agent on wire //sss/scry-request/~pet/hut/29/huts, %poke-ack  (tell:su-huts wire sign) < stale flag
-        (can I haz next aeon?)
-        %hut: on-poke with mark %sss-surf-fail
-    %hut: on-poke with mark %sss-huts-lake  (apply:su-huts type=%nigh) > set behn
-
-  A NEW WAVE COMING IN
-    %hut: on-poke with mark %sss-huts-lake  (apply:su-huts type=%scry what=%wave wave...)
-        (first view of aeon. apply will both scry and poke us)
-    %hut: on-poke with mark %sss-on-rock  (copy & secret & allow & give)
-    %hut: on-agent on wire //sss/on-rock/29/~pet/hut/huts, %poke-ack  (chit:su-huts wire sign) < fail flag
-
-  LISTENING TO OUR SUBSCRIBERS
-    %hut: on-poke with mark %sss-to-pub   (apply:pu-huts when=[~ 30])
-    %hut: on-agent on wire //sss/scry-response/~per/hut/30/huts, %poke-ack
 
 
 ## Desk
