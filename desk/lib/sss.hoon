@@ -255,6 +255,9 @@
     |=  [sub=_(mk-subs lake *) from=[ship dude *] to=paths]
     ^-  pubs
     :-  %0
+    ::  nord - this is a big tweak to allow for gossiping
+    ::         it allows us overwrite our pub paths
+    ::
     :: ?<  (~(has by pub) to)
     %+  ~(put by pub)  to
     %*  .  *$<(aeon buoy)

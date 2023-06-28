@@ -1,8 +1,10 @@
-::  :hut|quit ~zod %losers
+::  usage  :hut|quit [~zod %losers] %huthut
 ::
 :-  %say
-|=  $:  ^
-        [gid-host=ship gid-name=@tas ~]
+|=  $:  [now=@da eny=@uvJ bec=beak]
+        [[gid-host=ship gid-name=@tas] hut=@tas ~]
         ~
     ==
-[%hut-do [%quit [gid-host gid-name] our]]
+=*  our  p.bec
+::
+[%hut-do [%quit [[gid-host gid-name] hut] our]]

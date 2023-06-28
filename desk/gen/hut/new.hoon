@@ -1,13 +1,10 @@
-::  :hut|new %duckers %new-ass-hut-name
+::  usage  :hut|new [~per %hutopia] %huthut
 ::
 :-  %say
 |=  $:  [now=@da eny=@uvJ bec=beak]
-        [gid-name=@tas hut-name=@tas ~]
+        [[host=@p gid-name=@tas] hut-name=@tas ~]
         ~
     ==
 =*  our  p.bec
-::  %new want [hut msgs]
-::  msgs is a list of msg but that seems easy to drop
-::  we're trying to just pass a ~
 ::
-[%hut-do [%new [[our gid-name] hut-name] ~]]
+[%hut-do [%new [[host gid-name] hut-name] ~ our]]

@@ -1,78 +1,54 @@
 /-  *hut
 |%
 ++  name  %huts-lake
-+$  rock  [=huts =joined]
++$  rock  [=huts =joined =present]
 +$  wave
-  $%  [%new =hut =msgs our=@p]
-      [%join =hut our=@p]
-      [%quit =hut our=@p]
-      [%del =hut our=@p]
+  $%  [%new =hut =msgs who=@p]    ::  nord - added who to poke. lake doesn't have our.bowl
+      [%join =hut who=@p]
+      [%quit =hut who=@p]
+      [%pres squad=gid ships=(list @p)]
   ==
 ++  wash
   |=  [=rock =wave]
   ^+  rock
   ?-  -.wave
-    ::
       %new
-    ~|  %cant-read-wut
+    ~_  %hut-already-exists
     ?<  (~(has ju huts.rock) squad.hut.wave name.hut.wave)
     %=  rock
       huts     (~(put ju huts.rock) squad.hut.wave name.hut.wave)
-      ::  joined modifications
-      ::  w/o a bowl, our is passed into the joined list for
-      ::  the new hut we create
-      joined   (~(put ju joined.rock) hut.wave our.wave)
+      joined   (~(put ju joined.rock) hut.wave who.wave)
     ==
-  ::
-      %del
-    ?>  (~(has ju huts.rock) squad.hut.wave name.hut.wave)
-    %=  rock
-      huts     (~(del ju huts.rock) squad.hut.wave name.hut.wave)
-      joined   ~
-    ==
-    ::  a public record of who is interested in what hut
-    ::  joined.rock will help determine neighbors for
-    ::  individual hut gossiping
     ::
       %join
-        :: a branch for init rock, otherwise read:pu-huts crashes on the
-        :: assertion below
     ?:  =(rock *^rock)
       rock
     ?>  (~(has ju huts.rock) squad.hut.wave name.hut.wave)
     %=  rock
-      joined   (~(put ju joined.rock) hut.wave our.wave)
+      joined   (~(put ju joined.rock) hut.wave who.wave)
     ==
+    ::
       %quit
+    ~_  %hut-doesnt-exists
     ?>  (~(has ju huts.rock) squad.hut.wave name.hut.wave)
+    ::
+    =/  left  (need (~(get by joined.rock) hut.wave))
+    ?.  =(1 ~(wyt in left)) ::  last one
+      %=  rock
+        joined   (~(del ju joined.rock) hut.wave who.wave)
+      ==
+    ::  turn the lights off when you're the last one out
+    ~&  >>>  "goodbye {<name.hut.wave>}"
     %=  rock
-      joined   (~(del ju joined.rock) hut.wave our.wave)
+      huts     (~(del ju huts.rock) squad.hut.wave name.hut.wave)
+      joined   (~(del ju joined.rock) hut.wave who.wave)
+    ==
+    ::
+      %pres
+    =/  gate  (cury |=([squad=gid ship=@p] [squad ship]) squad.wave)
+    =/  jug-list  (turn ships.wave gate)
+    %=  rock
+      present  (~(gas ju present.rock) jug-list)
     ==
   ==
 --
-::  types
-::
-::  +$  hut-act
-::    $%  [%new =hut =msgs] :: may require passing our in poke, w/o
-::                              joined no need for our=@p
-::        [%post =hut =msg]
-::        [%join =gid who=@p]
-::        [%quit =gid who=@p]
-::        [%del =hut]
-::    ==
-::  +$  gid  [host=@p name=@tas]
-::  +$  hut      [=gid =name]
-::  +$  msg      [who=@p what=@t]
-::  +$  msgs     (list msg)
-::
-::
-::  example pokes
-::
-::    in order to create a new squad, go to the localhost frontend
-::      ready gid [~per %hutopia]
-::      ready hut [[~per %hutopia] %huthut]
-::    :hut &hut-do [[%huts ~] [%new [[~per %hutopia] %huthut] ~ our]]
-::    :hut &hut-do [[%hut ~] [%post [[~per %hutopia] %huthut] [our 'what up?']]]
-::    :hut &see ~
-::    :hut &surf [~per [%hut ~]]
-::    :hut &quit [~per [%hut ~]]
