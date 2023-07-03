@@ -10,7 +10,7 @@
   ```
 
   each command takes a `gid` and `name.hut`.
-  
+
 
 **new structure for hut**
 
@@ -26,22 +26,26 @@ it's necessary to note that the concept of `=joined` in the new state structure
 is very different from the original. in vanilla %hut `=joined` is meant for
 the host of the huts to know the list of everyone who wants updates for
 their huts. in the new state `=joined` is a list of ships in the squad
-that have used sss to surf a hut and it's msgs. this is important)
+that have used sss to surf a hut and it's msgs. this is important
 because the gossip protocol requires a known list of potential neighbors
 for each available hut. ironically, I later added `=present` which is the jug
-that `=joined` was originally. but the purpose is for `=present` to be
+that `=joined` was originally. but the purpose for `=present` is to be
 the list from which we construct our network, since it's possible that
-not every member of your squad is using %hut. this aspect of the app
-isn't implemented yet.
+not every member of your squad is using %hut.
 
 here's an overview of the new state structure. squad members using %hut
 will surf the `[%huts host.squad name.squad ~]` path, which will be common
-among all members of the squad. lib/news will assign gossip neighbors based
-on their order in a list of all squad members. the ui will use the rock in the
-`[%huts *]` path to generate the hut options. when a squad members chooses to
-`%join` a given hut they will surf `[%msgs %that-hut ~]`. lib/news will use the
-list of `=joined` ships to assign neighbors for gossiping that hut's
-msgs.
+among all members of the squad. lib/news will first assign gossip neighbors
+based on their order in a list of all squad members (this requires getting a
+little lucky). Each member is listening for new subscribers and will update the
+list of `=present` ships. With every change in `=present` lib/news assigns new
+neighbors forming the actually network.
+
+the ui (when it's modified) will use the rock in the `[%huts ~.host %squad ~]`
+path to generate the hut options. when a squad member chooses to `%join` a given
+hut they will surf `[%msgs %that-hut ~]`. lib/news will use the list of `=joined`
+ships to assign neighbors for gossiping that hut's msgs. any change in `=joined`
+results in new neighbors being assigned.
 
 just as a quick note on the improvement on the original state
 structures. before, all the data for every hut was recorded in the state
@@ -50,7 +54,6 @@ keep track of interested ships to properly send updates. now each ship
 takes care of their own subscriptions by `%join`ing and `%quit`ing with
 sss. and instead of the host keeping all of the chat data, that data is
 stored only by the interested ships. it's just nice :)
-
 
 ## Desk
 
