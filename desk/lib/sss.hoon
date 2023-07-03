@@ -231,7 +231,6 @@
     =/  buoy  (~(gut by pub) path *buoy)
     ?@  tide=tid.buoy  ~|  %dead-path  !!  ::TODO is this good behavior?
     =/  next=aeon  +((latest tide))
-    ~&  "your subs in mem.tide are {<mem.tide>}"
     :-  %+  murn  ~(tap bi mem.tide)
         |=  [=ship =dude =@da]
         ?:  (lth da now.bowl)  ~
